@@ -1,36 +1,48 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 🛒 বাজার দর (BazarDor)
 
-## Getting Started
+নিত্যপ্রয়োজনীয় পণ্যের বাজার দর পর্যবেক্ষণ, বিভাগভিত্তিক বাজার তুলনা এবং রিয়েল-টাইম মূল্য পর্যবেক্ষণের একটি আধুনিক ওয়েব অ্যাপ্লিকেশন।
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🌐 Live & Repository Links
+- **Live Deployment:** [আপনার Vercel লাইভ লিংক এখানে দিন]
+- **GitHub Repository:** [https://github.com/Sarwar-07/bazar-dor](https://github.com/Sarwar-07/bazar-dor)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## 📖 বর্ণনা (Project Description)
+**বাজার দর** ব্যবহারকারীদের দৈনন্দিন নিত্যপ্রয়োজনীয় পণ্য যেমন চাল, ডাল, তেল, সবজি, মাছ, মাংস ইত্যাদির আজকের বাজারদর এক নজরে পর্যবেক্ষণ করতে সহায়তা করে। প্ল্যাটফর্মটি পণ্যের মূল্যবৃদ্ধির শীর্ষ তালিকা, হ্রাসপ্রাপ্ত পণ্যের তালিকা এবং বিভিন্ন জেলার বাজারের তুলনামূলক চিত্র স্পষ্টভাবে তুলে ধরে।
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## 🛠️ ব্যবহৃত প্রযুক্তি (Technologies Used)
+- **Framework:** Next.js 15+ (App Router)
+- **Styling:** Tailwind CSS
+- **Authentication:** Better Auth (MongoDB Adapter)
+- **Database:** MongoDB Atlas
+- **Icons & UI Feedback:** Lucide-React & React-Hot-Toast
+- **Language:** JavaScript (ES6+)
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## ✨ প্রধান ৫টি ফিচার (5 Key Features)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. **রিয়েল-টাইম প্রাইস টিকার ও ক্যাটাগরি ব্রাউজিং:**
+   - স্ক্রিনের শীর্ষে স্বয়ংক্রিয়ভাবে চলমান প্রাইস স্ট্রিপ (Marquee ticker) এবং মসৃণ ক্যাটাগরি ফিল্টারিং।
+2. **বাংলা সংখ্যাভিত্তিক সঠিক সর্টিং (Challenge C1):**
+   - বাংলা সংখ্যার অক্ষরভিত্তিক ত্রুটিপূর্ণ সর্টিং পরিহার করে কাস্টম লজিকের মাধ্যমে প্রকৃত মূল্যের ক্রমানুসারে (কম থেকে বেশি / বেশি থেকে কম) নির্ভুল ফিল্টারিং।
+3. **বাজারভিত্তিক তুলনামূলক বিশ্লেষণ (Protected Product Details):**
+   - বিভিন্ন বাজার ও বিভাগের পণ্যের সর্বনিম্ন, সর্বাধিক ও গড় দামের বিস্তারিত টেবিল যা শুধুমাত্র রেজিস্টার্ড ব্যবহারকারীরা দেখতে পাবেন।
+4. **নিরাপদ অথেনটিকেশন ও রাউট গার্ড:**
+   - Better Auth ব্যবহার করে ইমেইল-পাসওয়ার্ড সাইন ইন, সাইন আপ ও সোশ্যাল লগইন সাপোর্ট সহ স্বয়ংক্রিয় টোস্ট নোটিফিকেশন।
+5. **প্রোফাইল ব্যবস্থাপনা ও তথ্য হালনাগাদ (Challenge C3):**
+   - ব্যবহারকারীর তথ্য দেখা এবং ডেডিকেটেড রুটের মাধ্যমে প্রোফাইলের নাম রিয়েল-টাইমে আপডেট করার পূর্ণ সুবিধা।
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 💻 স্থানীয়ভাবে চালানোর নিয়ম (Setup Guide)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. **ক্লোন করুন:**
+   ```bash
+   git clone [https://github.com/Sarwar-07/bazar-dor.git](https://github.com/Sarwar-07/bazar-dor.git)
+   cd bazar-dor
