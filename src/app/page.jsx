@@ -1,49 +1,45 @@
 import Link from "next/link";
+import Image from "next/image";
+import { connection } from "next/server";
 import ProductCard from "@/components/ProductCard";
-import { getBanglaTodayDate, parseBanglaNumber } from "@/lib/utils";
+import { getBanglaTodayDate, toBanglaNumber } from "@/lib/utils";
+import { PRODUCTS_DATA } from "@/app/api/products/route";
 
 async function getProducts() {
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000/api";
+
   try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL || "https://api.api-store.workers.dev/api/bazardor"}/products`,
-      { next: { revalidate: 60 } }
-    );
-    if (!res.ok) throw new Error("Failed to fetch products");
-    const data = await res.json();
-    return Array.isArray(data) ? data : data.products || [];
-  } catch (error) {
-    console.error("Fetch products error:", error);
-    return [];
-  }
+    const res = await fetch(`${apiUrl}/products`, { cache: "no-store" });
+    if (res.ok) {
+      const data = await res.json();
+      const items = Array.isArray(data) ? data : data.products || [];
+      if (items.length > 0) return items;
+    }
+  } catch (e) {}
+
+  return PRODUCTS_DATA;
 }
 
 export default async function HomePage() {
+  await connection();
+
   const products = await getProducts();
   const banglaDate = getBanglaTodayDate();
 
-  // Helper to extract signed numeric change percentage
-  const getChangeValue = (item) => {
-    const raw = String(item.change || item.changePercent || "0");
-    const num = parseFloat(raw.replace(/[^\d.-]/g, "")) || 0;
-    if (raw.includes("-") || item.changeType === "down") return -Math.abs(num);
-    if (raw.includes("+") || item.changeType === "up") return Math.abs(num);
-    return num;
-  };
-
-  // Section A: Top 6 Risers (Highest positive change)
+  // Top 6 price increases
   const risers = [...products]
-    .filter((p) => getChangeValue(p) > 0)
-    .sort((a, b) => getChangeValue(b) - getChangeValue(a))
+    .filter((p) => p.numericChange > 0 || p.changeType === "up")
+    .sort((a, b) => (b.numericChange || 0) - (a.numericChange || 0))
     .slice(0, 6);
 
-  // Section B: Top 6 Fallers (Steepest negative change)
+  // Top 6 price decreases
   const fallers = [...products]
-    .filter((p) => getChangeValue(p) < 0)
-    .sort((a, b) => getChangeValue(a) - getChangeValue(b))
+    .filter((p) => p.numericChange < 0 || p.changeType === "down")
+    .sort((a, b) => (a.numericChange || 0) - (b.numericChange || 0))
     .slice(0, 6);
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 space-y-12">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 space-y-10">
       {/* Hero / Banner Section */}
       <section className="bg-white rounded-3xl p-6 sm:p-10 border border-gray-100 shadow-sm flex flex-col md:flex-row items-center justify-between gap-8">
         <div className="space-y-4 max-w-xl text-center md:text-left">
@@ -66,17 +62,23 @@ export default async function HomePage() {
           </div>
         </div>
 
-        {/* Hero Basket Graphic */}
-        <div className="w-64 h-56 sm:w-80 sm:h-64 flex items-center justify-center text-8xl sm:text-9xl bg-emerald-50/60 rounded-3xl shrink-0 select-none">
-          🧺
+        <div className="w-64 h-52 sm:w-80 sm:h-64 relative flex items-center justify-center shrink-0">
+          <Image
+            src="/bazar-hero.png"
+            alt="আজকের বাজারের দাম"
+            width={300}
+            height={240}
+            priority
+            className="object-contain drop-shadow-sm"
+          />
         </div>
       </section>
 
-      {/* Section A: আজ দাম বেড়েছে ▲ */}
+      {/* Section 1: আজ দাম বেড়েছে */}
       {risers.length > 0 && (
         <section className="space-y-4">
           <div className="flex items-center gap-2">
-            <span className="text-rose-600 text-base">▲</span>
+            <span className="text-rose-600 text-sm font-bold">▲</span>
             <h2 className="text-xl sm:text-2xl font-bold text-gray-900">
               আজ দাম বেড়েছে
             </h2>
@@ -89,11 +91,11 @@ export default async function HomePage() {
         </section>
       )}
 
-      {/* Section B: আজ দাম কমেছে ▼ */}
+      {/* Section 2: আজ দাম কমেছে */}
       {fallers.length > 0 && (
         <section className="space-y-4">
           <div className="flex items-center gap-2">
-            <span className="text-emerald-600 text-base">▼</span>
+            <span className="text-emerald-600 text-sm font-bold">▼</span>
             <h2 className="text-xl sm:text-2xl font-bold text-gray-900">
               আজ দাম কমেছে
             </h2>
@@ -106,18 +108,18 @@ export default async function HomePage() {
         </section>
       )}
 
-      {/* Section C: সব পণ্য */}
-      <section id="সব-পণ্য" className="space-y-4 pt-4">
+      {/* Section 3: সব পণ্য */}
+      <section id="সব-পণ্য" className="space-y-4 pt-2">
         <div>
           <h2 className="text-xl sm:text-2xl font-bold text-gray-900">
             সব পণ্য
           </h2>
           <p className="text-xs sm:text-sm text-gray-500 mt-1">
-            মোট {products.length ? parseBanglaNumber(products.length) : 0}টি পণ্য দেখানো হচ্ছে
+            মোট {toBanglaNumber(products.length)}টি পণ্য দেখানো হচ্ছে
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {products.map((product) => (
             <ProductCard key={product.id || product.slug} product={product} />
           ))}

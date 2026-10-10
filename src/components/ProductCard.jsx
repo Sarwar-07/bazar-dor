@@ -1,54 +1,50 @@
 import Link from "next/link";
-import { toBanglaNumber } from "@/lib/utils";
 
 export default function ProductCard({ product }) {
-  // Determine if price rose, dropped, or remained flat
-  const rawChange = String(product.change || product.changePercent || "0");
-  const isUp = rawChange.includes("+") || product.changeType === "up" || (!rawChange.includes("-") && parseFloat(rawChange) > 0);
-  const isDown = rawChange.includes("-") || product.changeType === "down" || parseFloat(rawChange) < 0;
-
-  // Format clean Bengali percentage string
-  const cleanChangeStr = rawChange.replace(/[+\-%]/g, "").trim();
-  const banglaChange = toBanglaNumber(cleanChangeStr) || "০.০";
+  const isUp = product.changeType === "up" || String(product.change || "").includes("+");
+  const isDown = product.changeType === "down" || String(product.change || "").includes("-");
 
   return (
     <Link
       href={`/product/${product.id || product.slug}`}
-      className="bg-white rounded-2xl p-4 sm:p-5 border border-gray-100 shadow-sm hover:shadow-md hover:border-emerald-200 transition-all flex flex-col justify-between group"
+      className="group block bg-white rounded-2xl p-5 border border-gray-100 shadow-sm hover:shadow-md hover:border-emerald-200 transition-all"
     >
-      <div className="flex items-start gap-3.5">
-        <div className="w-12 h-12 rounded-xl bg-gray-50 flex items-center justify-center text-2xl shrink-0 group-hover:scale-105 transition-transform">
-          {product.icon || product.emoji || "🛒"}
-        </div>
-        <div>
-          <h3 className="font-semibold text-gray-900 text-base leading-snug group-hover:text-emerald-700 transition-colors">
-            {product.name}
-          </h3>
-          <p className="text-xs text-gray-500 mt-0.5">
-            {product.unit ? (product.unit.startsWith("প্রতি") ? product.unit : `প্রতি ${product.unit}`) : "প্রতি কেজি"}
-          </p>
-        </div>
-      </div>
-
-      <div className="mt-5 pt-3 border-t border-gray-50 flex items-end justify-between">
-        <div>
-          <span className="text-[11px] text-gray-500 block">আজকের দাম</span>
-          <span className="text-lg font-bold text-gray-900">
-            {product.price ? toBanglaNumber(product.price) : "—"} টাকা
-          </span>
+      <div className="flex items-center justify-between gap-4">
+        {/* Left: Icon & Name */}
+        <div className="flex items-center gap-3 min-w-0">
+          <div className="w-12 h-12 rounded-full bg-gray-50 flex items-center justify-center text-2xl shrink-0 group-hover:scale-105 transition-transform">
+            {product.icon || "🛒"}
+          </div>
+          <div className="min-w-0">
+            <h3 className="text-base font-bold text-gray-900 truncate group-hover:text-emerald-700 transition-colors">
+              {product.name}
+            </h3>
+            <p className="text-xs text-gray-400 mt-0.5">
+              প্রতি {product.unit || "কেজি"}
+            </p>
+          </div>
         </div>
 
-        <span
-          className={`text-xs font-semibold px-2.5 py-1 rounded-full flex items-center gap-1 ${
-            isUp
-              ? "bg-rose-50 text-rose-600"
-              : isDown
-              ? "bg-emerald-50 text-emerald-700"
-              : "bg-gray-100 text-gray-600"
-          }`}
-        >
-          {isUp ? "▲" : isDown ? "▼" : "—"} {banglaChange}%
-        </span>
+        {/* Right: Price & Trend Badge */}
+        <div className="text-right shrink-0">
+          <p className="text-[11px] text-gray-400 mb-0.5">আজকের গড় দাম</p>
+          <div className="flex items-center justify-end gap-2">
+            <span className="text-base sm:text-lg font-extrabold text-gray-900">
+              {product.price} টাকা
+            </span>
+            <span
+              className={`inline-flex items-center gap-0.5 px-2 py-0.5 rounded-full text-xs font-semibold ${
+                isUp
+                  ? "bg-rose-50 text-rose-600"
+                  : isDown
+                  ? "bg-emerald-50 text-emerald-600"
+                  : "bg-gray-100 text-gray-500"
+              }`}
+            >
+              {isUp ? "▲" : isDown ? "▼" : "—"} {product.change || "০.০%"}
+            </span>
+          </div>
+        </div>
       </div>
     </Link>
   );
