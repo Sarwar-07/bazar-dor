@@ -7,6 +7,8 @@ import { useSession } from "@/lib/auth-client";
 import { toBanglaNumber, CATEGORIES } from "@/lib/utils";
 import toast from "react-hot-toast";
 
+export const dynamic = "force-dynamic";
+
 // Fallback markets matching Figma design if API only provides summary figures
 const DEFAULT_MARKETS = [
   { name: "মাঠ বাজার", division: "ময়মনসিংহ", min: "৫৯", max: "৬৫", avg: "৬২" },
