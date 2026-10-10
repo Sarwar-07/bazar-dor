@@ -5,7 +5,7 @@ import ProductCard from "@/components/ProductCard";
 import { getBanglaTodayDate, toBanglaNumber } from "@/lib/utils";
 import { PRODUCTS_DATA } from "@/app/api/products/route";
 
-export const dynamic = "force-dynamic";
+
 
 async function getProducts() {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000/api";
