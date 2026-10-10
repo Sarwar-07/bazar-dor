@@ -7,7 +7,7 @@ import ProductCard from "@/components/ProductCard";
 import ProductCardSkeleton from "@/components/ProductCardSkeleton";
 import { CATEGORIES, parseBanglaNumber, toBanglaNumber } from "@/lib/utils";
 
-export const dynamic = "force-dynamic";
+
 
 const CATEGORY_FALLBACK_PRODUCTS = [
   { id: "1", slug: "miniket-rice", name: "মিনিকেট চাল", category: "chal", price: "৬৮", change: "+২.৫%", changeType: "up", unit: "কেজি", icon: "🍚", minPrice: "৬৫", maxPrice: "৭২", avgPrice: "৬৮" },
