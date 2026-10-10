@@ -23,12 +23,13 @@ export default function Navbar() {
   const router = useRouter();
   const { data: session, isPending } = useSession();
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [banglaDate, setBanglaDate] = useState("");
   const dropdownRef = useRef(null);
 
-  const banglaDate = getBanglaTodayDate();
-
-  // Close dropdown on click outside
+  // Set date on client mount to eliminate prerendering warnings & handle outside clicks
   useEffect(() => {
+    setBanglaDate(getBanglaTodayDate());
+
     function handleClickOutside(event) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setDropdownOpen(false);
@@ -70,7 +71,7 @@ export default function Navbar() {
               <span className="text-xl sm:text-2xl font-extrabold text-gray-900 tracking-tight leading-none group-hover:text-emerald-700 transition-colors block">
                 বাজার দর
               </span>
-              <span className="text-[11px] sm:text-xs text-gray-500 font-medium mt-0.5 block">
+              <span className="text-[11px] sm:text-xs text-gray-500 font-medium mt-0.5 block min-h-[16px]">
                 {banglaDate}
               </span>
             </div>
@@ -142,7 +143,7 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* Category Pills Bar */}
+        {/* Category Navigation Pills */}
         <div className="flex items-center gap-2 overflow-x-auto py-2.5 no-scrollbar select-none border-t border-gray-50 text-sm">
           {NAV_CATEGORIES.map((cat) => {
             const isActive =
