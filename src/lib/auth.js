@@ -6,7 +6,7 @@ import { MongoClient } from "mongodb";
 dns.setServers(["8.8.8.8", "8.8.4.4"]);
 
 const client = new MongoClient(process.env.BETTER_AUTH_DB_URL || "");
-const db = client.db("bazardor"); // matching your existing Atlas database
+const db = client.db("bazardor");
 
 export const auth = betterAuth({
   database: mongodbAdapter(db),
@@ -17,6 +17,9 @@ export const auth = betterAuth({
     "http://localhost:3000",
     "https://bazar-dor-sarwar5.vercel.app",
   ],
+  emailAndPassword: {
+    enabled: true,
+  },
   socialProviders: {
     google: {
       clientId: process.env.GOOGLE_CLIENT_ID,
