@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { signIn } from "@/lib/auth-client";
 import toast from "react-hot-toast";
+import SocialButtons from "@/components/SocialButtons";
 
 export default function SignInPage() {
   const router = useRouter();
@@ -14,12 +15,8 @@ export default function SignInPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!email || !password) {
-      toast.error("ইমেইল ও পাসওয়ার্ড প্রদান করুন");
-      return;
-    }
-
     setLoading(true);
+
     try {
       const res = await signIn.email({
         email,
@@ -27,14 +24,13 @@ export default function SignInPage() {
       });
 
       if (res?.error) {
-        toast.error(res.error.message || "ইমেইল বা পাসওয়ার্ড ভুল হয়েছে");
+        toast.error(res.error.message || "ভুল ইমেইল বা পাসওয়ার্ড");
       } else {
-        toast.success("সফলভাবে সাইন ইন হয়েছে!");
+        toast.success("সাইন ইন সফল হয়েছে!");
         router.push("/");
-        router.refresh();
       }
     } catch (err) {
-      toast.error("সাইন ইন করতে সমস্যা হয়েছে। আবার চেষ্টা করুন।");
+      toast.error("সাইন ইন করতে সমস্যা হয়েছে");
     } finally {
       setLoading(false);
     }
@@ -47,12 +43,12 @@ export default function SignInPage() {
         callbackURL: "/",
       });
     } catch (err) {
-      toast.error(`${provider} দিয়ে সাইন ইন করা সম্ভব হয়নি`);
+      toast.error(`${provider} দিয়ে যুক্ত হতে সমস্যা হয়েছে`);
     }
   };
 
   return (
-    <div className="min-h-[80vh] flex flex-col items-center justify-center px-4 py-12">
+    <div className="min-h-[85vh] flex flex-col items-center justify-center px-4 py-12">
       <div className="text-center space-y-2 mb-8">
         <h1 className="text-3xl font-extrabold text-gray-900">সাইন ইন</h1>
         <p className="text-sm text-gray-500">
@@ -78,13 +74,13 @@ export default function SignInPage() {
 
           <div>
             <label className="block text-xs font-semibold text-gray-700 mb-1.5">
-              পাসওয়ার্ড
+              পাসওয়ার্ড
             </label>
             <input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="কমপক্ষে ৮ অক্ষর"
+              placeholder="আপনার পাসওয়ার্ড"
               required
               className="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600 transition"
             />
@@ -93,7 +89,7 @@ export default function SignInPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-medium text-sm transition shadow-sm disabled:opacity-60"
+            className="w-full py-3 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-medium text-sm transition shadow-sm disabled:opacity-60 cursor-pointer"
           >
             {loading ? "অপেক্ষা করুন..." : "সাইন ইন"}
           </button>
@@ -104,22 +100,11 @@ export default function SignInPage() {
           <span className="bg-white px-3 text-xs text-gray-400 absolute">অথবা</span>
         </div>
 
-        <div className="space-y-2.5">
-          <button
-            type="button"
-            onClick={() => handleSocialSignIn("google")}
-            className="w-full py-2.5 px-4 rounded-xl border border-gray-200 hover:bg-gray-50 flex items-center justify-center gap-2 text-xs sm:text-sm font-medium text-gray-700 transition"
-          >
-            <span>🌐</span> Google দিয়ে চালিয়ে যান
-          </button>
-          <button
-            type="button"
-            onClick={() => handleSocialSignIn("github")}
-            className="w-full py-2.5 px-4 rounded-xl border border-gray-200 hover:bg-gray-50 flex items-center justify-center gap-2 text-xs sm:text-sm font-medium text-gray-700 transition"
-          >
-            <span>🐙</span> GitHub দিয়ে চালিয়ে যান
-          </button>
-        </div>
+        <SocialButtons
+          onGoogleClick={() => handleSocialSignIn("google")}
+          onGitHubClick={() => handleSocialSignIn("github")}
+          isPending={loading}
+        />
 
         <p className="text-center text-xs text-gray-500 pt-2">
           অ্যাকাউন্ট নেই?{" "}

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { signUp, signIn } from "@/lib/auth-client";
 import toast from "react-hot-toast";
+import SocialButtons from "@/components/SocialButtons";
 
 export default function SignUpPage() {
   const router = useRouter();
@@ -38,11 +39,11 @@ export default function SignUpPage() {
       if (res?.error) {
         toast.error(res.error.message || "রেজিস্ট্রেশন সফল হয়নি");
       } else {
-        toast.success("অ্যাকাউন্ট তৈরি সম্পন্ন হয়েছে! অনুগ্রহ করে সাইন ইন করুন।");
+        toast.success("অ্যাকাউন্ট তৈরি সম্পন্ন হয়েছে! অনুগ্রহ করে সাইন ইন করুন।");
         router.push("/signin");
       }
     } catch (err) {
-      toast.error("অ্যাকাউন্ট তৈরিতে ত্রুটি দেখা দিয়েছে।");
+      toast.error("অ্যাকাউন্ট তৈরিতে ত্রুটি দেখা দিয়েছে");
     } finally {
       setLoading(false);
     }
@@ -100,7 +101,7 @@ export default function SignUpPage() {
 
           <div>
             <label className="block text-xs font-semibold text-gray-700 mb-1.5">
-              পাসওয়ার্ড
+              পাসওয়ার্ড
             </label>
             <input
               type="password"
@@ -114,7 +115,7 @@ export default function SignUpPage() {
 
           <div>
             <label className="block text-xs font-semibold text-gray-700 mb-1.5">
-              পাসওয়ার্ড নিশ্চিত করুন
+              পাসওয়ার্ড নিশ্চিত করুন
             </label>
             <input
               type="password"
@@ -129,7 +130,7 @@ export default function SignUpPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-medium text-sm transition shadow-sm disabled:opacity-60"
+            className="w-full py-3 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-medium text-sm transition shadow-sm disabled:opacity-60 cursor-pointer"
           >
             {loading ? "অপেক্ষা করুন..." : "অ্যাকাউন্ট তৈরি করুন"}
           </button>
@@ -140,22 +141,11 @@ export default function SignUpPage() {
           <span className="bg-white px-3 text-xs text-gray-400 absolute">অথবা</span>
         </div>
 
-        <div className="space-y-2.5">
-          <button
-            type="button"
-            onClick={() => handleSocialSignIn("google")}
-            className="w-full py-2.5 px-4 rounded-xl border border-gray-200 hover:bg-gray-50 flex items-center justify-center gap-2 text-xs sm:text-sm font-medium text-gray-700 transition"
-          >
-            <span>🌐</span> Google দিয়ে চালিয়ে যান
-          </button>
-          <button
-            type="button"
-            onClick={() => handleSocialSignIn("github")}
-            className="w-full py-2.5 px-4 rounded-xl border border-gray-200 hover:bg-gray-50 flex items-center justify-center gap-2 text-xs sm:text-sm font-medium text-gray-700 transition"
-          >
-            <span>🐙</span> GitHub দিয়ে চালিয়ে যান
-          </button>
-        </div>
+        <SocialButtons
+          onGoogleClick={() => handleSocialSignIn("google")}
+          onGitHubClick={() => handleSocialSignIn("github")}
+          isPending={loading}
+        />
 
         <p className="text-center text-xs text-gray-500 pt-2">
           অ্যাকাউন্ট আছে?{" "}
