@@ -5,8 +5,8 @@
 ---
 
 ## 🌐 Live & Repository Links
-- **Live Deployment:** [আপনার Vercel লাইভ লিংক এখানে দিন]
-- **GitHub Repository:** [https://github.com/Sarwar-07/bazar-dor](https://github.com/Sarwar-07/bazar-dor)
+- **Live Deployment:** [bazar-dor-sarwar5.vercel.app](https://bazar-dor-sarwar5.vercel.app/)
+- **GitHub Repository:** [github.com/Sarwar-07/bazar-dor](https://github.com/Sarwar-07/bazar-dor)
 
 ---
 
@@ -27,22 +27,50 @@
 
 ## ✨ প্রধান ৫টি ফিচার (5 Key Features)
 
-1. **রিয়েল-টাইম প্রাইস টিকার ও ক্যাটাগরি ব্রাউজিং:**
+1. **রিয়েল-টাইম প্রাইস টিকার ও ক্যাটাগরি ব্রাউজিং:**
    - স্ক্রিনের শীর্ষে স্বয়ংক্রিয়ভাবে চলমান প্রাইস স্ট্রিপ (Marquee ticker) এবং মসৃণ ক্যাটাগরি ফিল্টারিং।
 2. **বাংলা সংখ্যাভিত্তিক সঠিক সর্টিং (Challenge C1):**
    - বাংলা সংখ্যার অক্ষরভিত্তিক ত্রুটিপূর্ণ সর্টিং পরিহার করে কাস্টম লজিকের মাধ্যমে প্রকৃত মূল্যের ক্রমানুসারে (কম থেকে বেশি / বেশি থেকে কম) নির্ভুল ফিল্টারিং।
 3. **বাজারভিত্তিক তুলনামূলক বিশ্লেষণ (Protected Product Details):**
    - বিভিন্ন বাজার ও বিভাগের পণ্যের সর্বনিম্ন, সর্বাধিক ও গড় দামের বিস্তারিত টেবিল যা শুধুমাত্র রেজিস্টার্ড ব্যবহারকারীরা দেখতে পাবেন।
 4. **নিরাপদ অথেনটিকেশন ও রাউট গার্ড:**
-   - Better Auth ব্যবহার করে ইমেইল-পাসওয়ার্ড সাইন ইন, সাইন আপ ও সোশ্যাল লগইন সাপোর্ট সহ স্বয়ংক্রিয় টোস্ট নোটিফিকেশন।
+   - Better Auth ব্যবহার করে ইমেইল-পাসওয়ার্ড সাইন ইন, সাইন আপ এবং গুগল ও গিটহাব সোশ্যাল লগইন সাপোর্ট সহ স্বয়ংক্রিয় টোস্ট নোটিফিকেশন।
 5. **প্রোফাইল ব্যবস্থাপনা ও তথ্য হালনাগাদ (Challenge C3):**
-   - ব্যবহারকারীর তথ্য দেখা এবং ডেডিকেটেড রুটের মাধ্যমে প্রোফাইলের নাম রিয়েল-টাইমে আপডেট করার পূর্ণ সুবিধা।
+   - ব্যবহারকারীর তথ্য দেখা এবং ডেডিকেটেড রুটের মাধ্যমে প্রোফাইলের নাম রিয়েল-টাইমে আপডেট করার পূর্ণ সুবিধা।
 
 ---
 
-## 💻 স্থানীয়ভাবে চালানোর নিয়ম (Setup Guide)
+## 💻 স্থানীয়ভাবে চালানোর নিয়ম (Setup Guide)
 
-1. **ক্লোন করুন:**
+1. **রিপোজিটরি ক্লোন করুন:**
    ```bash
-   git clone [https://github.com/Sarwar-07/bazar-dor.git](https://github.com/Sarwar-07/bazar-dor.git)
+   git clone https://github.com/Sarwar-07/bazar-dor.git
    cd bazar-dor
+   ```
+
+2. **ডিপেন্ডেন্সি ইন্সটল করুন:**
+   ```bash
+   npm install
+   ```
+
+3. **এনভায়রনমেন্ট ভ্যারিয়েবল কনফিগার করুন:**
+   রুট ডিরেক্টরিতে একটি `.env.local` ফাইল তৈরি করুন এবং নিচের মানগুলো বসান:
+   ```env
+   BETTER_AUTH_SECRET=your_better_auth_secret
+   BETTER_AUTH_URL=http://localhost:3000
+   BETTER_AUTH_DB_URL=your_mongodb_connection_uri
+
+   # Google OAuth
+   GOOGLE_CLIENT_ID=your_google_client_id
+   GOOGLE_CLIENT_SECRET=your_google_client_secret
+
+   # GitHub OAuth
+   GITHUB_CLIENT_ID=your_github_client_id
+   GITHUB_CLIENT_SECRET=your_github_client_secret
+   ```
+
+4. **লোকাল সার্ভার চালু করুন:**
+   ```bash
+   npm run dev
+   ```
+   ব্রাউজারে http://localhost:3000 ওপেন করে প্রজেক্টটি দেখুন।
